@@ -132,8 +132,8 @@ iface eth0 inet static
     gateway 192.239.2.0
 ```
 
-```bash
 ## Mikasa
+```bash
 auto eth0
 iface eth0 inet static
     address 192.239.2.4
