@@ -2,7 +2,6 @@
 
 ### **Paradis (DHCP Relay)**
 ```bash
-# DHCP config for eth0
 auto eth0
 iface eth0 inet dhcp
 
@@ -85,22 +84,26 @@ iface eth0 inet static
 ---
 
 ### **Annie, Bertholdt, Reiner (Laravel Workers)**
+## Annie
 ```bash
-# Annie
 auto eth0
 iface eth0 inet static
     address 192.239.1.2
     netmask 255.255.255.0
     gateway 192.239.1.0
+```
 
-# Bertholdt
+## Bertholdt
+```bash
 auto eth0
 iface eth0 inet static
     address 192.239.1.3
     netmask 255.255.255.0
     gateway 192.239.1.0
+```
 
-# Reiner
+## Reiner
+```bash
 auto eth0
 iface eth0 inet static
     address 192.239.1.4
@@ -111,22 +114,26 @@ iface eth0 inet static
 ---
 
 ### **Armin, Eren, Mikasa (PHP Workers)**
+## Armin
 ```bash
-# Armin
 auto eth0
 iface eth0 inet static
     address 192.239.2.2
     netmask 255.255.255.0
     gateway 192.239.2.0
+```
 
-# Eren
+## Eren
+```bash
 auto eth0
 iface eth0 inet static
     address 192.239.2.3
     netmask 255.255.255.0
     gateway 192.239.2.0
+```
 
-# Mikasa
+```bash
+## Mikasa
 auto eth0
 iface eth0 inet static
     address 192.239.2.4
