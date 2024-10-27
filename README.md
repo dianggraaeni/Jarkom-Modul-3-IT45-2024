@@ -154,11 +154,162 @@ auto eth0
 iface eth0 inet dhcp
 ```
 ---
+
+### **Code**
 ```
 apt-get update
 apt-get install isc-dhcp-server -y
 ```
 
+```
+nano /etc/dhcp/dhcpd.conf
+```
+
+```
+subnet 192.239.1.0 netmask 255.255.255.0 {
+    range 192.239.1.5 192.239.1.25;
+    range 192.239.1.50 192.239.1.100;
+    option routers 192.239.1.1;
+    option broadcast-address 192.239.1.255;
+    option domain-name-servers 192.239.4.2;  # Fritz sebagai DNS Server
+    default-lease-time 1800;  # Lease time 30 menit untuk Marley
+    max-lease-time 5220;      # Lease time maksimal 87 menit
+}
+
+subnet 192.239.2.0 netmask 255.255.255.0 {
+    range 192.239.2.9 192.239.2.27;
+    range 192.239.2.81 192.239.2.243;
+    option routers 192.239.2.1;
+    option broadcast-address 192.239.2.255;
+    option domain-name-servers 192.239.4.2;  # Fritz sebagai DNS Server
+    default-lease-time 360;   # Lease time 6 menit untuk Eldia
+    max-lease-time 5220;      # Lease time maksimal 87 menit
+}
+
+subnet 192.239.3.0 netmask 255.255.255.0 {
+    option routers 192.239.3.1;
+}
+
+subnet 192.239.4.0 netmask 255.255.255.0 {
+    option routers 192.239.4.1;
+}
+```
+
+```
+service isc-dhcp-server restart
+```
+
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+```
+
+```
+nano /etc/default/isc-dhcp-relay
+```
+
+```
+SERVERS="192.239.4.3"  # IP dari DHCP server (Tybur)
+INTERFACES="eth1 eth2 eth3 eth4"  
+OPTIONS=""
+```
+
+```
+service isc-dhcp-relay restart
+```
+
+```
+apt-get update
+apt-get install bind9 -y
+```
+
+```
+nano /etc/bind/named.conf.options
+```
+
+```
+options {
+    directory "/var/cache/bind";
+    forwarders {
+         192.168.122.1;  
+    };
+    allow-query { any; };
+    listen-on-v6 { any; };
+};
+```
+
+```
+nano /etc/bind/named.conf.local
+```
+
+```
+zone "marley.it45.com" {
+    type master;
+    file "/etc/bind/jarkom/marley.it45.com";
+};
+
+zone "eldia.it45.com" {
+    type master;
+    file "/etc/bind/jarkom/eldia.it45.com";
+};
+```
+
+```
+mkdir /etc/bind/jarkom
+```
+
+```
+nano /etc/bind/jarkom/marley.it45.com
+```
+
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@    IN    SOA    marley.it45.com. root.marley.it45.com. (
+             2024102701        ; Serial
+             604800        ; Refresh
+             86400        ; Retry
+             2419200        ; Expire
+             604800 )    ; Negative Cache TTL
+;
+@    IN    NS    marley.it45.com.
+@       IN    A    192.239.1.2
+```
+
+```
+nano /etc/bind/jarkom/eldia.it45.com
+```
+
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@    IN    SOA    eldia.it45.com. root.eldia.it45.com. (
+             2024102701        ; Serial
+             604800        ; Refresh
+             86400        ; Retry
+             2419200        ; Expire
+             604800 )    ; Negative Cache TTL
+;
+@    IN    NS    eldia.it45.com.
+@       IN    A    192.239.2.2
+```
+
+```
+service bind9 restart
+```
+
+```
+ifconfig
+```
+
+```
+ping marley.it45.com
+ping eldia.it45.com
+```
 
 ---
 ## Testing No 2
