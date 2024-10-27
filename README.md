@@ -153,5 +153,24 @@ iface eth0 inet static
 auto eth0
 iface eth0 inet dhcp
 ```
+---
+```
+apt-get update
+apt-get install isc-dhcp-server -y
+```
+
 
 ---
+## Testing No 2
+![image](https://github.com/user-attachments/assets/f52125ee-3fab-4f97-8e7b-ed4ccc83de25)
+
+## Testing No 3
+![image](https://github.com/user-attachments/assets/0de16a1c-f443-4de0-9cb8-dd5f1d351ada)
+
+## Testing No 4
+![image](https://github.com/user-attachments/assets/3bc6008a-768d-4965-a54e-51aa1ff95322)
+
+![image](https://github.com/user-attachments/assets/c18ec67b-203f-4af4-a37e-1468b48ffd2f)
+
+
+
